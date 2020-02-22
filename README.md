@@ -31,7 +31,8 @@
 
 ## 4. MySQL数据库表设计
 ### 4.1 use表
-<img src="./BlogPageShow/user表.png" width="600">
+<img src="./BlogPageShow/user表.png" width="660" height="200">
+
 > 注意：
 > - nick_name的默认值为'匿名'
 > - avatar的默认值为'../public/img/defaultAvatar.jpg'
@@ -39,11 +40,12 @@
 
 
 ### 4.2 blog_content表
-<img src="./BlogPageShow/blog_content表.png" width="600">
+<img src="./BlogPageShow/blog_content表.png" width="600" height="120">
+
 > 注意：collection_num的默认值为0
 
 ### 4.3 admin表
-<img src="./BlogPageShow/admin表.png" width="600">
+<img src="./BlogPageShow/admin表.png" width="282" height="89">
 
 ## 5. 接口
 接口详情可以查看当前目录下的 ***接口文档.md***  文件
