@@ -33,16 +33,8 @@
 ### 4.1 use表
 <img src="./BlogPageShow/user表.png" width="660" height="200">
 
-> 注意：
-> - nick_name的默认值为'匿名'
-> - avatar的默认值为'../public/img/defaultAvatar.jpg'
-> - blog_num的默认值为0，
-
-
 ### 4.2 blog_content表
 <img src="./BlogPageShow/blog_content表.png" width="600" height="120">
-
-> 注意：collection_num的默认值为0
 
 ### 4.3 admin表
 <img src="./BlogPageShow/admin表.png" width="282" height="89">
