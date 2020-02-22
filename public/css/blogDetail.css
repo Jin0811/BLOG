@@ -1,0 +1,125 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button{
+    border: none;
+    outline: none;
+    background: none;
+}
+body{
+    background-color: rgb(240, 240, 240);
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+/* #app{
+    width: 100vw;
+    height: 100vh;
+} */
+header{
+    width: 80%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.leftHead{
+    width: 40%;
+    height: 100%;
+    min-width: 100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.leftHead > img{
+    height: 30px;
+    margin-right: 10px;
+}
+.rightHead{
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0 10px;
+    background-color: #00a1d6;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    font-size: 15px;
+}
+.rightHead:hover{
+    cursor: pointer;
+}
+
+
+/* 主体部分 */
+.main{
+    width: 80%;
+    height: calc(100vh - 90px);
+    margin: 75px auto 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    box-sizing: border-box;
+    padding: 20px;
+    background-color: white;
+}
+.topTitle{
+    font-size: 22px;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    padding-bottom: 10px;
+    color: #414141;
+    user-select: none;
+}
+.content{
+    width: 100%;
+    height: calc(100% - 70px);
+    line-height: 24px;
+    color: #414141;
+    overflow-y: auto;
+    border: none;
+    outline: none;
+    user-select: none;
+    background: none;
+    font-family: "微软雅黑";
+    font-size: 15px;
+    resize: none;
+}
+.content::-webkit-scrollbar{
+    display:none
+}
+.bolgInfo{
+    margin-top: 15px;
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+.bolgInfo > img{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+.bolgInfo > p{
+    height: 20px;
+    padding: 0 8px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.15);
+    color: #414141;
+    user-select: none;
+    font-size: 14px;
+}
+[v-cloak]{
+    display: none;
+}

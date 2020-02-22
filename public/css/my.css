@@ -1,0 +1,175 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button{
+    border: none;
+    outline: none;
+    background: none;
+}
+body{
+    background-color: rgb(240, 240, 240);
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+/* #app{
+    width: 100vw;
+    height: 100vh;
+} */
+header{
+    width: 80%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.leftHead{
+    width: 20%;
+    height: 100%;
+    min-width: 100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.leftHead > img{
+    height: 30px;
+    margin-right: 10px;
+}
+.rightHead{
+    height: 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.rightHead > a{
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0 10px;
+    background-color: #00a1d6;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    font-size: 15px;
+    margin-left: 20px;
+}
+.rightHead > div{
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0 10px;
+    background-color: #00a1d6;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    font-size: 15px;
+}
+.rightHead > a:hover{
+    cursor: pointer;
+}
+.rightHead > div:hover{
+    cursor: pointer;
+}
+
+
+/* 主体部分 */
+.main{
+    width: 80%;
+    height: calc(100vh - 90px);
+    margin: 75px auto 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+.mainBgc{
+    width: 100%;
+    height: 200px;
+    background-image: url("../img/selfBgc.png");
+    background-size: cover;
+    background-position: center center;
+}
+.infoContainer{
+    width: 80%;
+    height: 350px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 20px;
+    position: relative;
+    top: -50px;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.avatar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform:  translateX(-50%);
+    font-size: 20px;
+    color: #575757;
+    font-weight: bold;
+}
+.avatar > img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.info{
+    width: 80%;
+    margin: 0 auto;
+    padding: 80px 0 0;
+    text-align: center;
+}
+.info > p{
+    width: 60%;
+    min-width: 410px;
+    margin: 10px auto 25px;
+    color: #575757;
+    border: 1px solid #575757;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+.info > p > span:first-child{
+    display: inline-block;
+    width: 200px;
+    text-align: right;
+}
+.info > p > span:last-child{
+    display: inline-block;
+    width: 200px;
+    text-align: left;
+}
+.change{
+    display: block;
+    width: 130px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    border: 1px solid #575757;
+    color: #575757;
+    margin: 30px auto 0;
+    text-decoration: none;
+}
+.change:hover{
+    background-color: #7e7c7c;
+    border: 1px solid #7e7c7c;
+    color: white;
+    cursor: pointer;
+}
+[v-cloak] {
+    display: none
+}

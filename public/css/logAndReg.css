@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* 父组件的样式 */
+#app{
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../img/bgc.jpg");
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bar {
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bar > p {
+    font-size: 18px;
+    font-weight: bold;
+}
+.bar > p > a{
+    color:rgba(0, 0, 0, 0.9);
+    text-decoration: none;
+}
+.bar > span {
+    display: block;
+    width: 2px;
+    height: 18px;
+    margin: 0 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    transform: rotate(7deg);
+    -ms-transform: rotate(7deg); /* IE 9 */
+    -moz-transform: rotate(7deg); /* Firefox */
+    -webkit-transform: rotate(7deg); /* Safari 和 Chrome */
+    -o-transform: rotate(7deg); /* Opera */
+}
+.content {
+    width: 380px;
+    height: 300px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+.underLine {
+    font-size: 19px !important;
+    color: rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.9);
+}
+
+/* login组件的样式 */
+.loginDiv {
+    width: 380px;
+    height: 200px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.loginDiv > input {
+    width: 60%;
+    height: 40px;
+    padding: 0 5%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #575757;
+}
+.loginDiv > input::placeholder {
+    color: #575757;
+}
+.loginDiv > button {
+    width: 40%;
+    height: 40px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: bold;
+}
+.loginDiv > button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 注册组件的样式 */
+.registerDiv {
+    width: 380px;
+    height: 200px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.registerDiv > input {
+    width: 60%;
+    height: 40px;
+    padding: 0 5%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #575757;
+}
+.registerDiv > input:nth-child(2){
+    margin-bottom: 0;
+}
+.registerDiv > input::placeholder {
+    color: #575757;
+}
+.registerDiv > button {
+    width: 40%;
+    height: 40px;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    color: #2c3e50;
+    font-size: 16px;
+    font-weight: bold;
+}
+.registerDiv > button:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.notice{
+    width: 70%;
+    height: 20px;
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+}
+.notice > p{
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.6);
+}
+.dot{
+    width: 8px;
+    height: 8px;
+    background-color: rgb(112, 177, 38);
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.swal-modal{
+    height: 240px;
+}
+.swal-title{
+    font-size: 22px;
+    text-align: center;
+}

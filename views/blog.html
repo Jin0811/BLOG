@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BLOG 首页</title>
+    <link rel="stylesheet" href="../public/lib/swiper.min.css">
+    <link rel="stylesheet" href="../public/css/blog.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+</head>
+<body>
+    <div id="app">
+        <!-- 头部 -->
+        <header>
+            <div class="leftHead">
+                <img src="../public/img/logo.png">
+                <p>BLOG</p>
+            </div>
+            <div class="centerHead">
+                <div class="inputBox">
+                    <input @keydown="search" type="text" v-model="userSearchVal" placeholder="Javascript进阶之路">
+                    <img @click="search" src="../public/img/searchLogo.png" alt="">
+                </div>
+            </div>
+            <div class="rightHead">
+                <a href="/blog/addPage" class="add">Add Blog</a>
+                <img @click="goUserPage" v-cloak v-bind:src="avatar" alt="">
+                <p v-cloak>{{ nick_name }}</p>
+            </div>
+        </header>
+
+        <!-- 主题区域 -->
+        <section class="container">
+            <ul class="tags">
+                <li v-cloak v-for="(tag, index) in tags" :key="index" @click="tagSearch(index)">{{ tag }}</li>
+            </ul>
+            <div class="content">
+                <div class="swiper-container banner">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img class="bannerImg" src="../public/img/banner1.jpg" alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="bannerImg" src="../public/img/banner2.jpg" alt="">
+                        </div>
+                        <div class="swiper-slide">
+                            <img class="bannerImg" src="../public/img/banner3.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <ul class="blogs" v-if="isHasResult">
+                    <li v-for="(blog, index) in blog_list" :key="index">
+                        <div class="title" v-cloak @click="goDetail(blog.id)">{{ blog.title }}</div>
+                        <div class="blogContent">
+                            <p v-cloak>{{ blog.content }}</p>
+                        </div>
+                        <div class="info">
+                            <div class="infoLeft">
+                                <img v-cloak v-bind:src="blog.avatar" alt="">
+                                <p v-cloak>{{ blog.nick_name }}</p>
+                            </div>
+                            <div class="infoRight">
+                                <img v-if="blog.userLike" src="../public/img/heartR.png" alt="" @click="like($event, blog.id)">
+                                <img v-else src="../public/img/heartG.png" alt="" @click="like($event, blog.id)">
+                                <p v-cloak>{{ blog.collection_num }}</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div v-else class="noneResults">
+                    <img src="../public/img/noneResult.png" alt="">
+                    <img src="../public/img/404Bgc.png" alt="">
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/swiper.min.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script src="../public/lib/sweetalert.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            nick_name: "", // 用户昵称
+            avatar: "", // 用户头像
+            blog_list: [], // 博客列表
+            collectionArr: [], // 用户收藏博客的列表
+            userSearchVal: "", // 用户输入的查询的字符串
+            isHasResult: true, // 用户搜索的结果是否存在
+            tags: ["Python", "JS", "PHP", "HTML", "CSS", "Vue.js"],
+        },
+        mounted:function(){
+            // 读取用户信息的缓存
+            var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            if(!userInfo){
+                this.nick_name = "匿名";
+                this.avatar = "../public/img/defaultAvatar.jpg";
+                this.collection = [];
+            }else{
+                this.nick_name = userInfo.nick_name;
+                this.avatar = userInfo.avatar;
+                this.collection = userInfo.collection ? userInfo.collection.split(","):[];
+            }
+
+            // 获取博客列表，需要用到MySQL分页查询
+            var that = this;
+            axios.post("/blog/getBlogs", {
+                page: 1
+            })
+            .then(function(response){
+                that.blog_list = response.data;
+                for(var i=0; i<that.blog_list.length; i++){
+                    var blog_id = that.blog_list[i].id.toString();
+                    if(that.collection.indexOf(blog_id) == -1){
+                        that.blog_list[i].userLike = false;
+                    }else{
+                        that.blog_list[i].userLike = true;
+                    }
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        },
+        methods:{
+            // 点击收藏和取消收藏
+            like:function(event, blogID){
+                if(!JSON.parse(localStorage.getItem("userInfo"))){
+                    swal({
+                        title: "请先登录",
+                        icon: "info",
+                        button: false,
+                        timer: 800,
+                    });
+                    return
+                }
+                console.log(blogID);
+                var arr = event.target.src.split("/");
+                var isLike = arr[arr.length-1] == "heartG.png";
+                // isLike为true，代表未收藏该博客，现在进行收藏
+                // isLike为false，代表已收藏该博客，现在取消收藏
+                if(isLike){
+                    event.target.src = "../public/img/heartR.png";
+                    event.target.nextElementSibling.innerHTML = Number(event.target.nextElementSibling.innerHTML) + 1;
+                }else{
+                    event.target.src = "../public/img/heartG.png";
+                    event.target.nextElementSibling.innerHTML = Number(event.target.nextElementSibling.innerHTML) - 1;
+                }
+                // 发生请求的时候，传递给后端一个flag，来代表是进行收藏还是取消收藏
+                var that = this;
+                var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+                axios.post("/blog/like", {
+                    user_id: userInfo.id,
+                    blog_id: blogID,
+                    likeFlag: isLike,
+                    // likeFlag: true,
+                })
+                .then(function(response){
+                    if(response.data.status){
+                        if(isLike){
+                            userInfo.collection += "," + blogID;
+                        }else{
+                            var collectionArr = userInfo.collection.split(",");
+                            var index = collectionArr.indexOf(blogID.toString());
+                            collectionArr.splice(index, 1);
+                            userInfo.collection = collectionArr.toString();
+                        }
+                        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+            // 点击进入到用户的个人页面
+            goUserPage:function(){
+                if(!JSON.parse(localStorage.getItem("userInfo"))){
+                    swal({
+                        title: "请先登录",
+                        icon: "info",
+                        button: false,
+                        timer: 800,
+                    });
+                    return
+                }
+                window.location.href = "/blog/userPage";
+            },
+
+            // 点击博客的标题进入到当前博客的详情页面
+            goDetail:function(blogID){
+                window.location.href = "/blog/detailPage?blod_id=" + blogID;
+            },
+
+            // 点击按钮搜索博客
+            search:function(event){
+                var that = this;
+                // 如果存在event.screenX，则代表是鼠标事件
+                // 如果不存在，则代表是键盘事件
+                if(event.screenX){
+                    if(that.userSearchVal == ""){
+                        swal({
+                            title: "输入的内容为空",
+                            icon: "info",
+                            button: false,
+                            timer: 800,
+                        });
+                        return
+                    }
+                }else{
+                    var e = event || window.event || arguments.callee.caller.arguments[0];
+                    if(e && e.keyCode == 13){
+                        if(that.userSearchVal == ""){
+                            swal({
+                                title: "输入的内容为空",
+                                icon: "info",
+                                button: false,
+                                timer: 800,
+                            });
+                            return
+                        }
+                    }else{
+                        return
+                    }
+                }
+                
+                axios.post("/blog/searchBlog", {
+                    searchVal: that.userSearchVal
+                })
+                .then(function(response){
+                    that.blog_list = response.data.results;
+                    if(that.blog_list.length == 0){
+                        that.isHasResult = false;
+                    }else{
+                        that.isHasResult = true;
+                        for(var i=0; i<that.blog_list.length; i++){
+                            var blog_id = that.blog_list[i].id.toString();
+                            if(that.collection.indexOf(blog_id) == -1){
+                                that.blog_list[i].userLike = false;
+                            }else{
+                                that.blog_list[i].userLike = true;
+                            }
+                        }
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+            // 点击分类列表，进行搜索
+            tagSearch:function(index){
+                var that = this; 
+                axios.post("/blog/searchBlog", {
+                    searchVal: that.tags[index],
+                })
+                .then(function(response){
+                    that.blog_list = response.data.results;
+                    if(that.blog_list.length == 0){
+                        that.isHasResult = false;
+                    }else{
+                        that.isHasResult = true;
+                        for(var i=0; i<that.blog_list.length; i++){
+                            var blog_id = that.blog_list[i].id.toString();
+                            if(that.collection.indexOf(blog_id) == -1){
+                                that.blog_list[i].userLike = false;
+                            }else{
+                                that.blog_list[i].userLike = true;
+                            }
+                        }
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
+        },
+    });
+</script>
+<script>
+    // 配置轮播图
+    var swiper = new Swiper('.swiper-container', {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });     
+</script>
+</html>

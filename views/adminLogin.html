@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BLOG后台登录</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+    <link rel="stylesheet" href="../public/css/adminLogin.css">
+</head>
+<body>
+    <div id="app">
+        <div class="left">
+            <img src="../public/img/adminImg.png" alt="">
+        </div>
+        <div class="right">
+            <div class="rightContainer">
+                <p>BLOG-Admin</p>
+                <input type="text" v-model="userName" placeholder="请输入账号">
+                <input type="password" v-model="passWord" placeholder="请输入密码">
+                <div @click="login">LOGIN</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/sweetalert.min.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            userName:"",
+            passWord:""
+        },
+        methods:{
+            login:function(){
+                var that = this;
+                axios.post("/admin/login", {
+                    userName: that.userName,
+                    passWord: that.passWord
+                })
+                .then(function(response){
+                    if(response.data.status){
+                        swal({
+                            title: "登录成功，正在跳转页面",
+                            icon: "success",
+                            button: false,
+                            timer: 1300,
+                        }).then(function(){
+                            localStorage.setItem("verify", response.data.verify);
+                            that.userName = that.passWord = "";
+                            window.location.href = "/adminPage";
+                        });
+                    }else{
+                        swal({
+                            title: response.data.msg,
+                            icon: "error",
+                            button: false,
+                            timer: 1000,
+                        }).then(function(){
+                            that.userName = that.passWord = "";
+                        });
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
+        },
+    });
+</script>
+</html>

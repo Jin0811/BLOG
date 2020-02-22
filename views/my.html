@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+    <link rel="stylesheet" href="../public/css/my.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 头部 -->
+        <header>
+            <div class="leftHead">
+                <img src="../public/img/logo.png">
+                <p>BLOG / My</p>
+            </div>
+            <div class="rightHead">
+                <div @click="logout">退出登录</div>
+                <a href="/blog">返回首页</a>
+            </div>
+        </header>
+
+        <!-- 主体 -->
+        <section class="main">
+            <div class="mainBgc"></div>
+            <div class="infoContainer">
+                <div class="avatar">
+                    <img v-bind:src="user.avatar" alt="">
+                    <p v-cloak>{{ user.nick_name }}</p>
+                </div>
+                <div class="info">
+                    <p v-cloak>
+                        <span>nickName</span>
+                        <span>：</span>
+                        <span v-cloak>{{ user.nick_name }}</span>
+                    </p>
+                    <p>
+                        <span>Blog-Number</span>
+                        <span>：</span>
+                        <span v-cloak>{{ user.blog_num }}</span>
+                    </p>
+                    <p>
+                        <span>Email</span>
+                        <span>：</span>
+                        <span v-cloak>{{ user.email ? user.email: "⊙ω⊙木有啊~" }}</span>
+                    </p>
+                    <p>
+                        <span>Phone-number</span>
+                        <span>：</span>
+                        <span v-cloak>{{ user.phone }}</span>
+                    </p>
+                </div>
+                <a href="/blog/changeInfoPage" class="change">Go To Change!</a>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/sweetalert.min.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            user:{}
+        },
+        created:function(){
+            var user = JSON.parse(localStorage.getItem("userInfo"));
+            var that = this;
+            axios.post('/blog/detailPage', {
+                id: user.id,
+            })
+            .then(function (response) {
+                that.user = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        methods:{
+            // 退出登录，清除缓存的用户信息
+            logout:function(){
+                swal({
+                    title: "确认退出？",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(function(willDelete){
+                    if (willDelete) {
+                        localStorage.removeItem("userInfo");
+                        window.location.href = "/";
+                    }
+                });
+            },
+        },
+    });
+</script>
+</html>

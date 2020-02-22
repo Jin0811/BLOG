@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog Detail</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+    <link rel="stylesheet" href="../public/css/blogDetail.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 头部 -->
+        <header>
+            <div class="leftHead">
+                <img src="../public/img/logo.png">
+                <p>BLOG / Blog Detail</p>
+            </div>
+            <a href="/blog" class="rightHead">返回首页</a>
+        </header>
+
+        <!-- 主体 -->
+        <section class="main">
+            <p class="topTitle" v-cloak>{{ blog.title }}</p>
+            <textarea class="content" v-cloak disabled>{{ blog.content }}</textarea>
+            <div class="bolgInfo">
+                <img src="../public/img/heartR.png" alt="">
+                <p v-cloak>{{ blog.collection_num }}</p>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            blog: ""
+        },
+        mounted:function(){
+            // 获取到首页通过href传递过来的博客id
+            // 再根据id来查询对应博客的详细内容
+            var blogID = window.location.search.split("=")[1];
+            var that = this;
+            axios.post('/blog/blogDetail', {
+                id: blogID,
+            })
+            .then(function (response) {
+                that.blog = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        },
+        methods:{
+
+        },
+    });
+</script>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>add Blog</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+    <link rel="stylesheet" href="../public/css/addBlog.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 头部 -->
+        <header>
+            <div class="leftHead">
+                <img src="../public/img/logo.png">
+                <p>BLOG / Add Blog</p>
+            </div>
+            <div class="rightHead">
+                <a href="/blog">返回首页</a>
+                <div class="publish" @click="publish">Publish</div>
+            </div>
+        </header>
+
+        <!-- 主体 -->
+        <section class="main">
+            <div class="mainBgc"></div>
+            <div class="container">
+                <input type="text" placeholder="Title" v-model="blogTitle">
+                <textarea name="" id="" v-model="blogContent" placeholder="编辑博客"></textarea>
+                <input type="text" placeholder="Key Words (用空格分割)" v-model="blogKeywords">
+            </div>
+        </section>
+    </div>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/sweetalert.min.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            blogTitle: "",
+            blogContent: "",
+            blogKeywords: ""
+        },
+        methods:{
+            publish:function(){
+                // 判断用户是否登录
+                if(localStorage.getItem("userInfo") === null){
+                    swal({
+                        title: "请先登录",
+                        icon: "info",
+                        button: false,
+                        timer: 800,
+                    });
+                    return
+                }
+                let user = JSON.parse(localStorage.getItem("userInfo"));
+                var that = this;
+                axios.post('/blog/addBlog', {
+                    title: that.blogTitle, // 博客标题
+                    content: that.blogContent, // 博客内容 
+                    keywords: that.blogKeywords, // 博客关键词
+                    user_id: user.id // 当前用户的id
+                })
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data.status){
+                        swal({
+                            title: "发布成功",
+                            icon: "success",
+                            button: false,
+                            timer: 1000,
+                        });
+                        that.blogTitle = that.blogContent = that.blogKeywords = "";
+                    }else{
+                        swal({
+                            title: "发布失败",
+                            icon: "error",
+                            button: false,
+                            timer: 1000,
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    swal({
+                        title: "发布失败",
+                        icon: "error",
+                        button: false,
+                        timer: 1000,
+                    });
+                });
+            }
+        },
+    });
+</script>
+</html>

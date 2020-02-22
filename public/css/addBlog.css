@@ -1,0 +1,146 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button{
+    border: none;
+    outline: none;
+    background: none;
+}
+body{
+    background-color: rgb(240, 240, 240);
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+header{
+    width: 80%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.leftHead{
+    width: 40%;
+    height: 100%;
+    min-width: 100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.leftHead > img{
+    height: 30px;
+    margin-right: 10px;
+}
+.rightHead{
+    height: 30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.rightHead > a{
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    padding: 0 10px;
+    background-color: #00a1d6;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    font-size: 15px;
+    margin-right: 15px;
+}
+.rightHead > a:hover{
+    cursor: pointer;
+}
+.rightHead > .publish{
+    width: 80px;
+    height: 30px;
+    border: 1px solid #575757;
+    line-height: 30px;
+    text-align: center;
+    user-select: none;
+}
+.rightHead > .publish:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+/* 主体部分 */
+.main{
+    width: 80%;
+    height: calc(100vh - 90px);
+    margin: 75px auto 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+.mainBgc{
+    width: 100%;
+    height: 200px;
+    background-image: url("../img/selfBgc.png");
+    background-size: cover;
+    background-position: center center;
+}
+.container{
+    width: 80%;
+    height: calc(100% - 170px);
+    position: relative;
+    top: -90px;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+.container > input:nth-child(1){
+    width: 100%;
+    font-size: 22px;
+    font-family: "微软雅黑";
+    font-weight: bold;
+    padding-bottom: 10px;
+    color: #414141;
+    border-bottom: 1px solid #6d6b6b;
+    margin-bottom: 10px;
+}
+.container > input:nth-of-type(2){
+    width: 100%;
+    height: 30px;
+    font-size: 13px;
+    font-family: "微软雅黑";
+    color: #414141;
+    border-top: 1px solid #6d6b6b;
+    margin-top: 10px;
+}
+.container > textarea{
+    display: block;
+    resize: none;
+    width: 100%;
+    height: calc(100% - 90px);
+    outline: none;
+    border: none;
+    font-size: 15px;
+    line-height: 20px;
+    font-family: "微软雅黑";
+    overflow-y: auto;
+    color: #414141;
+}
+.container > textarea::-webkit-scrollbar {
+    display:none
+}
+
+.swal-modal{
+    height: 240px;
+}
+.swal-title{
+    font-size: 22px;
+    text-align: center;
+}

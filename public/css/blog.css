@@ -1,0 +1,243 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button{
+    border: none;
+    outline: none;
+    background: none;
+}
+body{
+    background-color: rgb(240, 240, 240);
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+/* #app{
+    width: 100vw;
+    height: 100vh;
+} */
+header{
+    width: 80%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.leftHead{
+    width: 10%;
+    height: 100%;
+    min-width: 100px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.leftHead > img{
+    height: 30px;
+    margin-right: 10px;
+}
+.centerHead{
+    width: 60%;
+    height: 100%;
+}
+.inputBox{
+    width: 96%;
+    height: 36px;
+    margin: 12px 0;
+    padding: 0 2%;
+    border: 1px solid grey;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.inputBox > input{
+    width: calc(100% - 40px);
+    height: 100%;
+}
+.inputBox > img{
+    height: 30px;
+}
+.inputBox > img:hover{
+    cursor: pointer;
+}
+.rightHead{
+    width: 20%;
+    min-width: 150px;
+    height: 80%;
+    margin: 10% 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.rightHead > .add{
+    display: block;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    padding: 0 10px;
+    background-color: #00a1d6;
+    color: white;
+    border-radius: 5px;
+    user-select: none;
+    font-size: 14px;
+    margin-right: 25px;
+}
+.rightHead > .add{
+    cursor: pointer;
+}
+.rightHead > img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.rightHead > img:hover{
+    cursor: pointer;
+}
+
+/* 主体区域样式 */
+.container{
+    width: 80%;
+    height: calc(100vh - 90px);
+    margin: 75px auto 0;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.2);
+}
+.tags{
+    width: 10%;
+    height: 100%;
+    background-color: white;
+    list-style: none;
+}
+.tags > li{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+.tags > li:hover{
+    cursor: pointer;
+    background-color: rgb(227, 233, 231);
+}
+.content{
+    width: calc(90% - 15px);
+    height: 100%;
+}
+.banner{
+    width: 100%;
+    height: 100px;
+    /* background-color: coral; */
+    margin-bottom: 10px;
+}
+.bannerImg{
+    width: 100%;
+}
+.noneResults{
+    width: 94%;
+    height: calc(100% - 120px);
+    padding: 5px 3%;
+    list-style: none;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+.noneResults > img:nth-child(1){
+    width: 100%;
+}
+.noneResults > img:nth-child(2){
+    height: 200px;
+}
+.blogs{
+    width: 94%;
+    height: calc(100% - 120px);
+    padding: 5px 3%;
+    list-style: none;
+    background-color: white;
+    overflow-y: auto;
+}
+.blogs::-webkit-scrollbar{
+    display:none
+}
+.blogs > li{
+    width: 100%;
+    padding: 15px 0 10px;
+    border-bottom: 1px solid #575757;
+}
+.blogs > li:last-child{
+    border-bottom: none;
+}
+.title{
+    font-size: 18px;
+    font-weight: 600;
+}
+.title:hover{
+    cursor: pointer;
+}
+.blogContent{
+    width: 100%;
+    line-height: 20px;
+    margin: 5px 0;
+    color: #575757;
+}
+.info{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+}
+.infoLeft{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.infoLeft > img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+.infoLeft > p{
+    font-size: 14px;
+    color: #575757;
+    user-select: none;
+}
+.infoRight{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.infoRight > img{
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}
+.infoRight > img:hover{
+    cursor: pointer;
+}
+.infoRight > p{
+    font-size: 14px;
+    color: #575757;
+    user-select: none;
+}
+[v-cloak]{
+    display: none;
+}
+.swal-modal{
+    height: 240px;
+}
+.swal-title{
+    font-size: 22px;
+    text-align: center;
+}

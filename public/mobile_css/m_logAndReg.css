@@ -1,0 +1,213 @@
+html {
+  font-size: 50px;
+}
+a {
+  text-decoration: none;
+}
+input {
+  border: none;
+  outline: none;
+}
+@media screen and (min-width: 320px) {
+  html {
+    font-size: 21.33333333px;
+  }
+}
+@media screen and (min-width: 360px) {
+  html {
+    font-size: 24px;
+  }
+}
+@media screen and (min-width: 375px) {
+  html {
+    font-size: 25px;
+  }
+}
+@media screen and (min-width: 384px) {
+  html {
+    font-size: 25.6px;
+  }
+}
+@media screen and (min-width: 400px) {
+  html {
+    font-size: 26.66666667px;
+  }
+}
+@media screen and (min-width: 414px) {
+  html {
+    font-size: 27.6px;
+  }
+}
+@media screen and (min-width: 424px) {
+  html {
+    font-size: 28.26666667px;
+  }
+}
+@media screen and (min-width: 480px) {
+  html {
+    font-size: 32px;
+  }
+}
+@media screen and (min-width: 720px) {
+  html {
+    font-size: 48px;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+#app {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../img/bgc.jpg");
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bar {
+  width: 100%;
+  height: 1.6rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bar > p {
+  font-size: 0.5rem;
+  font-weight: bold;
+}
+.bar > p > a {
+  color: rgba(0, 0, 0, 0.9);
+  text-decoration: none;
+}
+.bar > span {
+  display: block;
+  width: 0.026667rem;
+  height: 0.5rem;
+  margin: 0 0.233333rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  transform: rotate(7deg);
+  -ms-transform: rotate(7deg);
+  /* IE 9 */
+  -moz-transform: rotate(7deg);
+  /* Firefox */
+  -webkit-transform: rotate(7deg);
+  /* Safari 和 Chrome */
+  -o-transform: rotate(7deg);
+  /* Opera */
+}
+.content {
+  width: 10rem;
+  height: 10rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+}
+.underLine {
+  font-size: 0.6rem !important;
+  color: rgba(0, 0, 0, 0.9);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.9);
+}
+/* login组件的样式 */
+.loginDiv {
+  width: 10rem;
+  height: calc(100% - 1.6rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loginDiv > input {
+  width: 70%;
+  height: 1.4rem;
+  padding: 0 5%;
+  border-radius: 0.066667rem;
+  margin-bottom: 0.6rem;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #575757;
+  font-size: 0.6rem;
+}
+.loginDiv > input::placeholder {
+  color: #575757;
+}
+.loginDiv > button {
+  width: 40%;
+  height: 1.4rem;
+  margin-top: 0.3rem;
+  border-radius: 0.066667rem;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #2c3e50;
+  font-size: 0.55rem;
+  font-weight: bold;
+}
+.loginDiv > button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+/* 注册组件的样式 */
+.registerDiv {
+  width: 10rem;
+  height: calc(100% - 1.6rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.registerDiv > input {
+  width: 60%;
+  height: 1rem;
+  padding: 0 5%;
+  border-radius: 0.066667rem;
+  margin-bottom: 0.6rem;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #575757;
+  font-size: 0.24rem;
+}
+.registerDiv > input:nth-child(2) {
+  margin-bottom: 0;
+}
+.registerDiv > input::placeholder {
+  color: #575757;
+}
+.registerDiv > button {
+  width: 40%;
+  height: 1rem;
+  margin-top: 0.3rem;
+  border-radius: 0.066667rem;
+  border: none;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #2c3e50;
+  font-size: 0.213333rem;
+  font-weight: bold;
+}
+.registerDiv > button:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.notice {
+  width: 70%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 0.133333rem;
+}
+.notice > p {
+  font-size: 0.02rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.notice > p::before {
+  content: "#";
+}
+.swal-modal {
+  height: 240px;
+}
+.swal-title {
+  font-size: 22px;
+  text-align: center;
+}

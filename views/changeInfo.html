@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ChangeInfo</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+    <link rel="stylesheet" href="../public/css/changInfo.css">
+    <link rel="stylesheet" href="../public/lib/cropper.css">
+    <script src="../public/lib/jquery.min.js"></script>
+    <script src="../public/lib/cropper.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 头部 -->
+        <header>
+            <div class="leftHead">
+                <img src="../public/img/logo.png">
+                <p>BLOG / ChangeInfo</p>
+            </div>
+            <a href="/blog" class="rightHead">返回首页</a>
+        </header>
+
+        <!-- 主体 -->
+        <section class="main">
+            <div class="mainBgc"></div>
+            <div class="infoContainer">
+                <div class="avatar">
+                    <label for="userAvatar">
+                        <img v-cloak v-bind:src="avatar" alt="">
+                        <input type="file" name="userAvatar" id="userAvatar" class="file" @change="clipImg">
+                        <p v-cloak v-text="nickName"></p>
+                    </label>
+                </div>
+                <div class="info">
+                    <input autocomplete="off" type="text" v-model="nickName">
+                    <input autocomplete="off" type="text" v-model="phone">
+                    <input autocomplete="off" type="text" v-model="email">
+                </div>
+                <div class="save" @click="save">SAVE</div>
+            </div>
+        </section>
+
+        <!-- 遮罩层 -->
+        <div class="shade" v-show="isShade" v-cloak id="shade">
+            <div class="imgContainer">
+                <div class="imgContainerTop">
+                    <p @click="getBaseData">上传头像</p>
+                    <p @click="cancelClipImg">取消</p>
+                </div>
+                <div class="box">
+                    <img id="image" src="" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/sweetalert.min.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script>
+    var vm = new Vue({
+        el: "#app",
+        data:{
+            avatar:"",
+            nickName:"",
+            phone:"",
+            email:"",
+            id: "",
+            isShade: false
+        },
+        mounted:function(){
+            // 判断用户是否登录
+            var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            this.id = userInfo.id;
+            if(userInfo === null){
+                swal({
+                    title: "请先登录",
+                    icon: "info",
+                    button: false,
+                    timer: 800,
+                });
+                this.email = this.nickName =  this.phone = "⊙ω⊙木有啊~";
+                this.avatar = "../public/img/defaultAvatar.jpg";
+            }else{
+                this.email = userInfo.email ? userInfo.email:"⊙ω⊙木有邮箱啊~";
+                this.avatar = userInfo.avatar;
+                this.nickName = userInfo.nick_name;
+                this.phone = userInfo.phone;
+            }
+        },
+        methods:{
+            // 裁剪图片
+            clipImg:function(){
+                var shade = document.getElementById("shade");
+                shade.style.opacity = 1;
+                // 预览图片
+                var imgInput = document.getElementById("userAvatar");
+                $filePath = URL.createObjectURL(imgInput.files[0]);
+                $('#image').attr('src', $filePath);
+                this.isShade = true;
+                // 切割图片
+                $('#image').cropper({
+                    aspectRatio: 1 / 1,
+                    viewMode:1,
+                    scalable: true,
+                    guides:false, // 隐藏虚线
+                    crop: function (e) {
+                        // console.log(e.detail);
+                    }
+                });
+            },
+
+            // 取消裁剪图片
+            cancelClipImg:function(){
+                // 清空数据，销毁cropper
+                var imgInput = document.getElementById('userAvatar');
+                imgInput.value = "";
+                $('#image').attr('src', "");
+                $('#image').cropper('destroy');
+                this.isShade = false;
+                var shade = document.getElementById("shade");
+                shade.style.opacity = 1;
+            },
+
+            // 生成base64数据，传递给后端
+            getBaseData:function(){
+                var imgInput = document.getElementById("userAvatar");
+                var userInfo = localStorage.getItem("userInfo");
+
+                var cas = $('#image').cropper('getCroppedCanvas');
+                var base64url = cas.toDataURL('image/jpeg');
+
+                var that = this;
+                axios.post("/blog/changeUserAvatar", {
+                    id: JSON.parse(userInfo).id, // 用户id
+                    imgName: imgInput.files[0].name, // 图片原本的名称
+                    baseData: base64url, // base64数据
+                })
+                .then(function(response){
+                    if(response.data.status){
+                        that.isShade = false;
+                        swal({
+                            title: "修改成功",
+                            icon: "success",
+                            button: false,
+                            timer: 1000,
+                        });
+                        that.avatar = response.data.newAvatar;
+
+                        var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+                        userInfo.avatar = response.data.newAvatar;
+                        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+
+                        $('#image').cropper('destroy');
+                    }else{
+                        swal({
+                            title: "修改失败",
+                            icon: "error",
+                            button: false,
+                            timer: 1000,
+                        });
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+            // 保存修改
+            save:function(){
+                var that = this;
+                axios.post("/blog/changeInfo", {
+                    id: that.id,
+                    nick_name: that.nickName,
+                    email: that.email,
+                    phone: that.phone,
+                })
+                .then(function(response){
+                    if(response.data.status){
+                        swal({
+                            title: "修改成功",
+                            icon: "success",
+                            button: false,
+                            timer: 1000,
+                        });
+                        // 重新缓存用户的信息
+                        var newUserInfo = {
+                            id: that.id,
+                            nick_name: that.nickName,
+                            phone: that.phone,
+                            email: that.email,
+                            avatar: that.avatar,
+                            collection: JSON.parse(localStorage.getItem("userInfo")).collection,
+                        };
+                        localStorage.setItem("userInfo", JSON.stringify(newUserInfo));
+                    }else{
+                        swal({
+                            title: "修改失败",
+                            icon: "error",
+                            button: false,
+                            timer: 1000,
+                        });
+                    }
+                })
+                .catch(function(error){
+                    swal({
+                        title: "修改失败",
+                        icon: "error",
+                        button: false,
+                        timer: 1000,
+                    });
+                });
+            },
+        },
+    });
+</script>
+</html>

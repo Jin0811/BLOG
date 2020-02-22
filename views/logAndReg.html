@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, 
+    user-scalable=no maximum-scale=1.0 minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册 / 登录</title>
+    <link rel="stylesheet" media="screen and (min-width:720px)" href="../public/css/logAndReg.css">
+    <link rel="stylesheet" media="screen and (max-width:719px)" href="../public/mobile_css/m_logAndReg.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../public/img/logo.ico"/>
+</head>
+<body>
+    <div id="app">
+        <div class="content">
+            <div class="bar">
+                <p id="logintText">
+                    <a href="" @click.prevent="comName='login'">登录</a>
+                </p>
+                <span></span>
+                <p id="registerText">
+                    <a href="" @click.prevent="comName='register'">注册</a>
+                </p>
+            </div>
+            <component :is="comName"></component>
+        </div>
+    </div>
+
+    <!-- 登录组件 -->
+    <template id="login">
+        <div class="loginDiv">
+            <input type="text" placeholder="Username" v-model="userName" />
+            <input type="password" placeholder="Password" maxlength="6" v-model="passWord" />
+            <button @click="login">登录</button>
+        </div>
+    </template>
+
+    <!-- 注册组件 -->
+    <template id="register">
+        <div class="registerDiv">
+            <input type="text" placeholder="Username" v-model="userName" />
+            <input type="password" placeholder="Password" maxlength="6" v-model="passWord"/>
+            <div class="notice">
+                <div class="dot"></div>
+                <p>用户名为手机号，密码为6位数字</p>
+            </div>
+            <button @click="registerFun">注册</button>
+        </div>
+    </template>
+</body>
+<script src="../public/lib/vue-2.4.0.js"></script>
+<script src="../public/lib/sweetalert.min.js"></script>
+<script src="../public/lib/axios.min.js"></script>
+<script>
+    Vue.component('login',{
+        template: '#login',
+        data:function(){
+            return {
+                userName: "",
+                passWord: ""
+            }
+        },
+        mounted: function() {
+            // 挂载组件时，添加underLine类，用于控制文字的样式
+            var logintText = document.getElementById("logintText");
+            logintText.classList.add("underLine");
+        },
+        destroyed: function() {
+            // 销毁组件时，移除underLine类
+            var logintText = document.getElementById("logintText");
+            logintText.classList.remove("underLine");
+        },
+        methods:{
+            login:function(){
+                var that = this;
+                axios.post('/blog/login', {
+                    userName: that.userName,
+                    passWord: that.passWord
+                })
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data.status){
+                        // 在登录的时候，缓存用户的id，往后的页面都可以拿到用户id
+                        // 在退出登录的时候，清除用户的缓存 
+                        localStorage.setItem("userInfo", JSON.stringify(response.data.userInfo));
+                        window.location.href = "/blog";
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+        }
+    });
+    Vue.component('register',{
+        template: '#register',
+        data:function(){
+            return {
+                userName: "",
+                passWord: "",
+            }
+        },
+        mounted: function() {
+            // 挂载组件时，添加underLine类，用于控制文字的样式
+            var registerText = document.getElementById("registerText");
+            registerText.classList.add("underLine");
+        },
+        destroyed: function() {
+            // 销毁组件时，移除underLine类
+            var registerText = document.getElementById("registerText");
+            registerText.classList.remove("underLine");
+        },
+        methods:{
+            registerFun:function(){
+                var phoneReg =/^[1][3,4,5,7,8][0-9]{9}$/;
+                if(!phoneReg.test(this.userName)){
+                    swal({
+                        title: "用户名格式错误",
+                        icon: "error",
+                        button: false,
+                        timer: 1000,
+                    });
+                }
+
+                if(this.passWord == "" || this.passWord == ""){
+                    swal({
+                        title: "用户名或密码不能为空",
+                        icon: "error",
+                        button: false,
+                        timer: 1000,
+                    });
+                    return
+                }
+
+                var reg = /^[0-9]+$/;
+                if(this.passWord.length < 6 || !reg.test(this.passWord)){
+                    swal({
+                        title: "密码格式错误",
+                        icon: "error",
+                        button: false,
+                        timer: 1000,
+                    });
+                    return
+                };
+
+                var that = this;
+                axios.post('/blog/register', {
+                    userName: that.userName,
+                    passWord: that.passWord
+                })
+                .then(function (response) {
+                    console.log(response);
+                    if(response.data.status){
+                        swal({
+                            title: "注册成功，请登录",
+                            icon: "success",
+                            button: false,
+                            timer: 800,
+                        });
+                    }else{
+                        swal({
+                            title: "注册失败，请重试",
+                            icon: "error",
+                            button: false,
+                            timer: 800,
+                        });
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+                this.userName = this.passWord = "";
+            }
+        }
+    });
+    const vm = new Vue({
+        el: "#app",
+        data:{
+            comName:"login"
+        },
+        mounted:function(){
+            var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            if(userInfo){
+                swal({
+                    title: "您已登录，正在跳转页面",
+                    icon: "success",
+                    button: false,
+                    timer: 1300,
+                }).then(function(){
+                    window.location.href = "/blog";
+                });
+            }
+        },
+        methods: {
+            
+        },
+    });
+</script>
+</html>
