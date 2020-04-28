@@ -4,9 +4,9 @@ var router = express.Router();
 var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host: 'localhost',
-	user: 'root',
-	password: 'jin1104...',
-	database: 'blog'
+	user: '数据库用户名',
+	password: '数据库密码',
+	database: '数据库名称'
 });
 var fs = require("fs");
 
